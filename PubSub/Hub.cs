@@ -18,27 +18,8 @@ namespace PubSub
             _logger = logger;
         }
 
-        public async Task PublishAsync<T>(T data = default)
-        {
-            foreach (var handler in GetAliveHandlers<T>())
-            {
-                try
-                {
-                    switch (handler.Action)
-                    {
-                        case Action<T> action:
-                            action(data);
-                            break;
-                        case Func<T, Task> func:
-                            await func(data);
-                            break;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, $"Could not deliver message of type {typeof(T)} to subscriber of type {handler.Sender.Target?.GetType()}");
-                }
-            }
+        public async Task PublishAsync<T>(T data = default) {
+            await Task.WhenAll(GetAliveHandlers<T>().Select(x => x.ExecuteAction(_logger, data)));
         }
 
         public void Subscribe<T>(object subscriber, Action<T> handler)
@@ -130,6 +111,25 @@ namespace PubSub
             public Delegate Action { get; init; }
             public WeakReference Sender { get; init; }
             public Type Type { get; init; }
+
+            public async Task ExecuteAction<T>(ILogger logger, T data)  {
+                try
+                {
+                    switch (Action)
+                    {
+                        case Action<T> action:
+                            action(data);
+                            break;
+                        case Func<T, Task> func:
+                            await func(data);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, $"Could not deliver message of type {typeof(T)} to subscriber of type {Sender.Target?.GetType()}");
+                }
+            }
         }
     }
 }
