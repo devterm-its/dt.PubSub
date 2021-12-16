@@ -5,26 +5,29 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C73D1486-C5C4-4BF0-AE0B-D0A214E2CCB9}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netstandard1.1;netstandard2.0</TargetFrameworks>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>12.0</OldToolsVersion>
     <!--Start of Nuspec metadata-->
-    <PackageId>PubSub</PackageId>
-    <Title>PubSub dotnet</Title>
-    <Authors>upta</Authors>
-    <PackageProjectUrl>http://github.com/upta/pubsub</PackageProjectUrl>
+    <PackageId>dt.PubSub</PackageId>
+    <Title>dt.PubSub dotnet</Title>
+    <Authors>tobuto, upta</Authors>
+    <PackageProjectUrl>https://github.com/devterm-its/dt.PubSub</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>portable;pubsub;eventaggregator;c#</PackageTags>
-    <Description>An extremely light-weight, easy to use .Net pub/sub library</Description>
+    <Description>An extremely light-weight, easy to use .Net pub/sub library based on upta/pubsub</Description>
     <Version>4.0.0</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>strong-name.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
-    <FileVersion>3.0.0.0</FileVersion>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <FileVersion>6.0.0.0</FileVersion>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>9</LangVersion>
+    <RepositoryUrl>https://github.com/devterm-its/dt.PubSub</RepositoryUrl>
+    <PackageVersion>6.0.0</PackageVersion>
     <!--End of Nuspec metadata-->
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -49,6 +52,15 @@
     <Compile Remove="obj\**" />
     <EmbeddedResource Remove="obj\**" />
     <None Remove="obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PubSub.Abstractions\PubSub.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
   </ItemGroup>
 
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
